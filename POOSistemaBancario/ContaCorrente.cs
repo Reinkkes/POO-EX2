@@ -11,10 +11,11 @@ namespace POOSistemaBancario
         public ContaCorrente(int numeroConta, string titular, double saldo) : base(numeroConta, titular, saldo)
         {
         }
+
         public override double Sacar(double valor)
         {
-            if (valor > 0 && valor-5 <= Saldo)
-                Saldo -= valor+5;
+            if (valor > 0 && valor - 5 <= Saldo)
+                Saldo -= valor + 5;
             return Saldo;
         }
 
@@ -22,6 +23,5 @@ namespace POOSistemaBancario
         {
             return "Conta Corrente";
         }
-
     }
 }
