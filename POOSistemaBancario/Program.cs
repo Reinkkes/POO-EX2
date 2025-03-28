@@ -51,31 +51,66 @@ namespace POOSistemaBancario
 
         private static void CriarConta(List<ContaBancaria> contaUsuario)
         {
-            Console.Write("Número da conta: ");
-            int numeroConta = int.Parse(Console.ReadLine());
-            Console.Write("Titular da conta: ");
-            string titular = Console.ReadLine();
-            double saldo = 0;
-            ContaBancaria novaConta = new ContaBancaria(numeroConta, titular, saldo);
-            contaUsuario.Add(novaConta);
-            Console.WriteLine("Conta criada com sucesso!");
+            int numeroConta;
+            while (true)
+            {
+                Console.Write("Digite o Número da conta (3 Dígitos): ");
+                string input = Console.ReadLine();
+                if (input.Length != 3 || !int.TryParse(input, out numeroConta))
+                {
+                    Console.WriteLine("Número da conta inválido, tente novamente.");
+                    continue;
+                }
+                break;
+            }
+            ContaBancaria conta = contaUsuario.FirstOrDefault(c => c.NumeroConta == numeroConta);
+            if (conta != null)
+            {
+                Console.WriteLine("Conta já existe, escolha outro número");
+            }
+            else
+            {
+                Console.Write("Titular da conta: ");
+                string titular = Console.ReadLine();
+                double saldo = 0;
+                ContaBancaria novaConta = new ContaBancaria(numeroConta, titular, saldo);
+                contaUsuario.Add(novaConta);
+                Console.WriteLine("Conta criada com sucesso!");
+            }
         }
 
         private static void Operacao(List<ContaBancaria> contas, string operacao)
         {
             Console.Write("Número da conta: ");
-            int numeroConta = int.Parse(Console.ReadLine());
+            int numeroConta;
+            while (true)
+            {
+                Console.Write("Digite o Número da conta (3 Dígitos): ");
+                string input = Console.ReadLine();
+                if (input.Length != 3 || !int.TryParse(input, out numeroConta))
+                {
+                    Console.WriteLine("Número da conta inválido, tente novamente.");
+                    continue;
+                }
+                break;
+            }
             ContaBancaria conta = contas.FirstOrDefault(c => c.NumeroConta == numeroConta);
-
             if (conta == null)
             {
                 Console.WriteLine("Conta não encontrada.");
                 return;
             }
-
             Console.Write($"Valor para {operacao}: ");
-            double valor = double.Parse(Console.ReadLine());
-
+            double valor;
+            try
+            {
+                valor = double.Parse(Console.ReadLine());
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Valor inválido. Por favor, insira um número válido.");
+                return;
+            }
             if (operacao == "depositar")
             {
                 conta.Depositar(valor);
@@ -83,23 +118,25 @@ namespace POOSistemaBancario
             }
             else if (operacao == "sacar")
             {
-                if (conta.Sacar(valor) < conta.Saldo)
-                {
-                    Console.WriteLine("Saque realizado com sucesso!");
-                }
-                else
-                {
-                    Console.WriteLine("Saldo insuficiente.");
-                }
+                conta.Sacar(valor);
             }
         }
 
         private static void ExibirSaldo(List<ContaBancaria> contaUsuario)
         {
-            Console.Write("Número da conta: ");
-            int numeroConta = int.Parse(Console.ReadLine());
+            int numeroConta;
+            while (true)
+            {
+                Console.Write("Digite o Número da conta (3 Dígitos): ");
+                string input = Console.ReadLine();
+                if (input.Length != 3 || !int.TryParse(input, out numeroConta))
+                {
+                    Console.WriteLine("Número da conta inválido, tente novamente.");
+                    continue;
+                }
+                break;
+            }
             ContaBancaria conta = contaUsuario.FirstOrDefault(c => c.NumeroConta == numeroConta);
-
             if (conta != null)
             {
                 conta.ExibirSaldo();

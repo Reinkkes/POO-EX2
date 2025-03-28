@@ -20,10 +20,10 @@ namespace POOSistemaBancario
             get { return _numeroConta; }
             set
             {
-                if (value.ToString().Length == 7)
+                if (value.ToString().Length == 3)
                     _numeroConta = value;
                 else
-                    throw new Exception("Número da conta deve ter 7 dígitos");
+                    throw new Exception("Número da conta deve ter 3 dígitos");
             }
         }
 
@@ -64,14 +64,21 @@ namespace POOSistemaBancario
         public virtual double Sacar(double valor)
         {
             if (valor > 0 && valor <= Saldo)
-                Saldo -= valor;
-            return Saldo;
+            {
+                Saldo -= valor; 
+                Console.WriteLine("Saque realizado com sucesso!");
+            }
+            else
+            {
+                Console.WriteLine("Saldo insuficiente!");
+            }
+                return Saldo;
         }
 
         public void ExibirSaldo()
         {
             Console.Write($"{TipoConta()} - {this.Titular} |");
-            Console.WriteLine($"Saldo: {Saldo.ToString("C", new CultureInfo("pt-BR"))}");
+            Console.WriteLine($"Saldo: {this.Saldo.ToString("C", new CultureInfo("pt-BR"))}");
         }
 
         public virtual string TipoConta()
